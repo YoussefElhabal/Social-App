@@ -4,45 +4,36 @@ import { MouseEvent, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import { Button } from '@mui/material';
 import Link from 'next/link';
 import { clearUserData } from '@/features/auth/authSlice';
 import toast from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/store';
 import Cookies from "js-cookie";
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
+import ThemeToggleButton from './ThemeToggleButton';
+import AuthButtons from './AuthButtons';
 
 export default function Navbar() {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { userToken } = useSelector((state: RootState) => state.auth);
+    const { userToken } = useAppSelector((state: RootState) => state.auth);
     const isLoggedIn = Boolean(userToken);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState<null | HTMLElement>(null);
-
     const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
     const handleProfileMenuOpen = (event: MouseEvent<HTMLElement>) => {
         if (!isLoggedIn) return;
         setAnchorEl(event.currentTarget);
     };
 
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
-
     const handleMenuClose = () => {
         setAnchorEl(null);
-        handleMobileMenuClose();
     };
 
     const handleLogout = () => {
@@ -75,111 +66,48 @@ export default function Navbar() {
             <MenuItem
                 component={Link}
                 href="/profile"
-                onClick={handleMenuClose}
-                sx={{
-                    color: 'black',
-                    textDecoration: 'none',
-                    '&:hover': { textDecoration: 'none' },
-                }}
-            >
+                onClick={handleMenuClose}>
                 Profile
             </MenuItem>
             <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
     );
 
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    size="large"
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
-                </IconButton>
-            </MenuItem>
-        </Menu>
-    );
-
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
-                <Toolbar>
+            <AppBar
+                position="static"
+                sx={{
+                    backgroundColor: "primary.main",
+                    color: "common.white",
+                }}
+            >
+                <Toolbar
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        px: { xs: 2, sm: 3 },
+                    }}
+                >
                     <Typography
-                        variant="h6"
+                        variant="h5"
                         noWrap
                         component="div"
+                        sx={{ fontWeight: 700 }}
                     >
                         Social App
                     </Typography>
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
-                        {isLoggedIn ?
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            :
-                            <>
-                                <Link href='/login'>
-                                    <Button sx={{ color: 'white' }}>Login</Button>
-                                </Link>
-                                <Link href='/signup'>
-                                    <Button sx={{ color: 'white' }}>Register</Button>
-                                </Link>
-                            </>}
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: "center", gap: 2.5 }}>
+                        <AuthButtons isLoggedIn={isLoggedIn} onProfileClick={handleProfileMenuOpen} />
+                        <ThemeToggleButton />
                     </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: "center" }}>
-                        {isLoggedIn ?
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <AccountCircle />
-                            </IconButton>
-                            :
-                            <>
-                                <Link href='/login'>
-                                    <Button sx={{ color: 'white' }}>Login</Button>
-                                </Link>
-                                <Link href='/signup'>
-                                    <Button sx={{ color: 'white' }}>Register</Button>
-                                </Link>
-                            </>}
+                    <Box sx={{ display: { xs: 'flex', md: 'none' }, alignItems: "center", gap: 1.5 }}>
+                        <AuthButtons isLoggedIn={isLoggedIn} onProfileClick={handleProfileMenuOpen} />
+                        <ThemeToggleButton />
                     </Box>
                 </Toolbar>
             </AppBar>
-            {renderMobileMenu}
             {renderMenu}
         </Box>
     );

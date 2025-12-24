@@ -4,11 +4,19 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 
 export default function Footer() {
+    const theme = useTheme();
+
     return (
-        <Box sx={{ flexGrow: 1, mt: 4 }}>
-            <AppBar position="static" sx={{ top: "auto", bottom: 0 }}>
+        <Box>
+            <AppBar position="static" sx={{
+                top: "auto",
+                bottom: 0,
+                backgroundColor: theme.palette.primary.main,
+                color: theme.palette.common.white,
+            }}>
                 <Toolbar
                     sx={{
                         display: "flex",
