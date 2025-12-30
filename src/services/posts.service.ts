@@ -15,4 +15,16 @@ export const postsService = {
         });
         return res.data;
     },
+
+    getPost: async (id: string) => {
+        const token = Cookies.get('token');
+        if (!token) throw new Error('No auth token found');
+
+        const res = await axios.get(`${API_BASE_URL}/posts/${id}`, {
+            headers: {
+                token
+            },
+        });
+        return res.data;
+    },
 };

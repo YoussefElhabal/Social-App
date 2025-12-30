@@ -1,9 +1,9 @@
 export interface PostType {
     _id: string;
     body: string;
-    image?: string;
+    image: string;
     user: UserType;
-    comments?: CommentsType[];
+    comments: CommentsType[];
     createdAt: string;
 }
 
@@ -22,7 +22,8 @@ export interface CommentsType {
 }
 
 export interface PostsState {
-    posts: PostType[];
+    allPosts: PostType[];
+    singlePost: PostType | null;
     isLoading: boolean;
     isError: boolean;
 }

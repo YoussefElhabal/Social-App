@@ -1,7 +1,7 @@
 "use client";
 
 import { loginMethod } from '@/features/auth/authThunks';
-import { useAppDispatch } from '@/store/hooks';
+import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { Box, Button, Container, Paper, TextField, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-hot-toast';
@@ -12,27 +12,26 @@ import Link from 'next/link';
 export default function Login() {
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { isLoading } = useAppSelector((state) => state.persistedReducer.auth);
 
     const loginFormObj = useFormik({
         initialValues: {
             email: '',
             password: '',
         },
-        onSubmit(values, { resetForm }) {
-            dispatch(loginMethod(values))
-                .unwrap()
-                .then((res) => {
-                    Cookies.set("token", res.token, {
-                        expires: 7,
-                        sameSite: "strict",
-                    });
-                    resetForm();
-                    toast.success('Welcome back');
-                    router.push('/');
-                })
-                .catch(() => {
-                    toast.error('Incorrect email or password');
+        onSubmit: async (values, { resetForm }) => {
+            try {
+                const res = await dispatch(loginMethod(values)).unwrap();
+                Cookies.set("token", res.token, {
+                    expires: 7,
+                    sameSite: "strict",
                 });
+                resetForm();
+                toast.success('Welcome back');
+                router.push('/');
+            } catch {
+                toast.error('Incorrect email or password');
+            }
         },
     });
 
@@ -94,6 +93,7 @@ export default function Login() {
                         value={loginFormObj.values.email}
                         onChange={loginFormObj.handleChange}
                         fullWidth
+                        disabled={isLoading}
                     />
 
                     <TextField
@@ -103,12 +103,16 @@ export default function Login() {
                         value={loginFormObj.values.password}
                         onChange={loginFormObj.handleChange}
                         fullWidth
+                        disabled={isLoading}
                     />
 
                     <Button
                         type="submit"
                         variant="contained"
                         size="large"
+                        loading={isLoading}
+                        loadingPosition="center"
+                        disabled={isLoading}
                         sx={{
                             mt: 1,
                             py: 1.4,

@@ -18,7 +18,7 @@ export default function SignupPage() {
             password: "",
             rePassword: "",
             dateOfBirth: "",
-            gender: "male",
+            gender: null,
         },
         onSubmit: async (values, { resetForm }) => {
             try {
@@ -88,6 +88,7 @@ export default function SignupPage() {
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         fullWidth
+                        disabled={formik.isSubmitting}
                     />
 
                     <TextField
@@ -97,6 +98,7 @@ export default function SignupPage() {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         fullWidth
+                        disabled={formik.isSubmitting}
                     />
 
                     <TextField
@@ -106,6 +108,7 @@ export default function SignupPage() {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         fullWidth
+                        disabled={formik.isSubmitting}
                     />
 
                     <TextField
@@ -115,6 +118,7 @@ export default function SignupPage() {
                         value={formik.values.rePassword}
                         onChange={formik.handleChange}
                         fullWidth
+                        disabled={formik.isSubmitting}
                     />
 
                     <TextField
@@ -124,6 +128,7 @@ export default function SignupPage() {
                         value={formik.values.dateOfBirth}
                         onChange={formik.handleChange}
                         fullWidth
+                        disabled={formik.isSubmitting}
                         slotProps={{
                             inputLabel: {
                                 shrink: true
@@ -135,10 +140,14 @@ export default function SignupPage() {
                         name="gender"
                         select
                         label="Gender"
-                        value={formik.values.gender}
+                        value={formik.values.gender ?? ""}
                         onChange={formik.handleChange}
                         fullWidth
+                        disabled={formik.isSubmitting}
                     >
+                        <MenuItem value="" disabled>
+                            Select gender
+                        </MenuItem>
                         <MenuItem value="male">Male</MenuItem>
                         <MenuItem value="female">Female</MenuItem>
                     </TextField>
@@ -147,6 +156,9 @@ export default function SignupPage() {
                         type="submit"
                         variant="contained"
                         size="large"
+                        loading={formik.isSubmitting}
+                        loadingPosition="center"
+                        disabled={formik.isSubmitting}
                         sx={{
                             mt: 1,
                             py: 1.4,

@@ -21,7 +21,7 @@ export default function Navbar() {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { userToken } = useAppSelector((state: RootState) => state.auth);
+    const { userToken } = useAppSelector((state: RootState) => state.persistedReducer.auth);
     const isLoggedIn = Boolean(userToken);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -93,8 +93,9 @@ export default function Navbar() {
                     <Typography
                         variant="h5"
                         noWrap
-                        component="div"
-                        sx={{ fontWeight: 700 }}
+                        component={Link}
+                        href="/"
+                        sx={{ fontWeight: 700, textDecoration: "none", color: "common.white" }}
                     >
                         Social App
                     </Typography>

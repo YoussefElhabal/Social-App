@@ -19,23 +19,25 @@ export default function ThemeToggleButton() {
             sx={{ p: 0, pt: 0.5 }}
         >
             <AnimatePresence mode="wait" initial={false}>
-                {theme.palette.mode === 'dark' ? (
+                {theme.palette.mode === "dark" ? (
                     <motion.div
                         key="light"
-                        initial={{ rotate: -90, scale: 0.6, opacity: 0 }}
-                        animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                        exit={{ rotate: 90, scale: 0.6, opacity: 0 }}
-                        transition={{ duration: 0.30, ease: 'easeOut' }}
+                        whileTap={{ scale: 0.9 }}
+                        initial={{ y: 10, opacity: 0, filter: "blur(4px)" }}
+                        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                        exit={{ y: -10, opacity: 0, filter: "blur(4px)" }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
                     >
                         <LightModeIcon />
                     </motion.div>
                 ) : (
                     <motion.div
                         key="dark"
-                        initial={{ rotate: 90, scale: 0.6, opacity: 0 }}
-                        animate={{ rotate: 0, scale: 1, opacity: 1 }}
-                        exit={{ rotate: -90, scale: 0.6, opacity: 0 }}
-                        transition={{ duration: 0.30, ease: 'easeOut' }}
+                        whileTap={{ scale: 0.9 }}
+                        initial={{ y: -10, opacity: 0, filter: "blur(4px)" }}
+                        animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+                        exit={{ y: 10, opacity: 0, filter: "blur(4px)" }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
                     >
                         <DarkModeIcon />
                     </motion.div>

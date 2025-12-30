@@ -17,3 +17,18 @@ export const fetchPosts = createAsyncThunk<PostType[], void, { rejectValue: stri
         }
     }
 );
+
+export const fetchPost = createAsyncThunk<PostType, string, { rejectValue: string }>(
+    'posts/fetchPost',
+    async (id, { rejectWithValue }) => {
+        try {
+            const data = await postsService.getPost(id);
+            return data.post;
+        } catch (err: unknown) {
+            if (axios.isAxiosError(err)) {
+                return rejectWithValue(err.response?.data ?? err.message);
+            }
+            return rejectWithValue('Failed to fetch posts');
+        }
+    }
+);

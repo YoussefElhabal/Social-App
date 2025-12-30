@@ -20,7 +20,7 @@ export default function AuthButtons({ isLoggedIn, onProfileClick }: props) {
             onClick={onProfileClick}
             color="inherit"
             disableRipple
-            sx={{ p: 0, pr: 2 }}
+            sx={{ p: 0, pr: 1 }}
         >
             <AccountCircle />
         </IconButton>

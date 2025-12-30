@@ -9,7 +9,7 @@ export interface SignupPayload {
     password: string;
     rePassword: string;
     dateOfBirth: string;
-    gender: "male" | "female";
+    gender: "male" | "female" | null;
 }
 
 export interface AuthState {
