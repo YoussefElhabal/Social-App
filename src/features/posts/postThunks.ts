@@ -9,9 +9,9 @@ export const fetchPosts = createAsyncThunk<PostType[], void, { rejectValue: stri
         try {
             const data = await postsService.getPosts();
             return data.posts;
-        } catch (err: unknown) {
+        } catch (err) {
             if (axios.isAxiosError(err)) {
-                return rejectWithValue(err.response?.data ?? err.message);
+                return rejectWithValue(err.response?.data.error);
             }
             return rejectWithValue('Failed to fetch posts');
         }
@@ -24,11 +24,26 @@ export const fetchPost = createAsyncThunk<PostType, string, { rejectValue: strin
         try {
             const data = await postsService.getPost(id);
             return data.post;
-        } catch (err: unknown) {
+        } catch (err) {
             if (axios.isAxiosError(err)) {
-                return rejectWithValue(err.response?.data ?? err.message);
+                return rejectWithValue(err.response?.data.error);
             }
-            return rejectWithValue('Failed to fetch posts');
+            return rejectWithValue('Failed to fetch post');
+        }
+    }
+);
+
+export const createPost = createAsyncThunk(
+    "posts/createPost",
+    async ({ body, image }: { body: string; image?: File }, { rejectWithValue }) => {
+        try {
+            const data = await postsService.createPost(body, image);
+            return data;
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                return rejectWithValue(err.response?.data.error);
+            }
+            return rejectWithValue('Failed to create post');
         }
     }
 );

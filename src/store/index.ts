@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import authReducer from "@/features/auth/authSlice";
 import postsReducer from "@/features/posts/postSlice";
+import profileReducer from "@/features/profile/profileSlice";
 import {
     persistStore,
     persistReducer,
@@ -14,7 +15,9 @@ import {
 import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    posts: postsReducer,
+    profile: profileReducer,
 });
 
 const persistConfig = {
@@ -26,10 +29,7 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-    reducer: {
-        persistedReducer,
-        posts: postsReducer
-    },
+    reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
             serializableCheck: {

@@ -26,11 +26,34 @@ export default function AuthButtons({ isLoggedIn, onProfileClick }: props) {
         </IconButton>
     ) : (
         <>
-            <Link href='/login'>
-                <Button sx={{ fontSize: "16px", color: "common.white", p: 0, minWidth: "auto" }}>Login</Button>
+            <Link href="/login">
+                <Button
+                    variant="text"
+                    sx={{
+                        fontSize: 16,
+                        color: "text.secondary",
+                        p: 0,
+                        "&:hover": {
+                            backgroundColor: "transparent",
+                            color: "text.primary",
+                        }
+                    }}
+                >
+                    Login
+                </Button>
             </Link>
-            <Link href='/signup'>
-                <Button sx={{ fontSize: "16px", color: "common.white", p: 0, minWidth: "auto" }}>Register</Button>
+            <Link href="/signup">
+                <Button
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    sx={{
+                        textTransform: "none",
+                        fontSize: 15,
+                    }}
+                >
+                    Register
+                </Button>
             </Link>
         </>
     );

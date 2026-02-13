@@ -21,7 +21,7 @@ export default function Navbar() {
     const dispatch = useAppDispatch();
     const router = useRouter();
 
-    const { userToken } = useAppSelector((state: RootState) => state.persistedReducer.auth);
+    const { userToken } = useAppSelector((state: RootState) => state.auth);
     const isLoggedIn = Boolean(userToken);
 
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -46,40 +46,18 @@ export default function Navbar() {
         }, 0);
     };
 
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
-        <Menu
-            anchorEl={anchorEl}
-            anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            id={menuId}
-            keepMounted
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-            open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
-            <MenuItem
-                component={Link}
-                href="/profile"
-                onClick={handleMenuClose}>
-                Profile
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        </Menu>
-    );
+    const menuId = 'account-menu';
 
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar
-                position="static"
+                position="sticky"
+                elevation={2}
                 sx={{
-                    backgroundColor: "primary.main",
-                    color: "common.white",
+                    bgcolor: "background.paper",
+                    color: "text.primary",
+                    borderBottom: 1,
+                    borderColor: "divider",
                 }}
             >
                 <Toolbar
@@ -95,7 +73,12 @@ export default function Navbar() {
                         noWrap
                         component={Link}
                         href="/"
-                        sx={{ fontWeight: 700, textDecoration: "none", color: "common.white" }}
+                        sx={{
+                            fontWeight: 700,
+                            textDecoration: "none",
+                            color: "text.primary",
+                            letterSpacing: "0.5px",
+                        }}
                     >
                         Social App
                     </Typography>
@@ -109,7 +92,29 @@ export default function Navbar() {
                     </Box>
                 </Toolbar>
             </AppBar>
-            {renderMenu}
+            <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                id={menuId}
+                keepMounted
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                }}
+                open={isMenuOpen}
+                onClose={handleMenuClose}
+            >
+                <MenuItem
+                    component={Link}
+                    href="/profile"
+                    onClick={handleMenuClose}>
+                    Profile
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
         </Box>
     );
 }

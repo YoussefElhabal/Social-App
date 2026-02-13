@@ -14,12 +14,21 @@ import { getTheme } from '@/theme';
 import { CssBaseline } from "@mui/material";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-    const [mode, setMode] = useState<'light' | 'dark'>('light');
+    const getInitialMode = (): 'light' | 'dark' => {
+        if (typeof window === 'undefined') return 'light';
+        return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+    };
+
+    const [mode, setMode] = useState<'light' | 'dark'>(getInitialMode);
 
     const colorMode = useMemo(
         () => ({
             toggleColorMode: () => {
-                setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
+                setMode((prev) => {
+                    const next = prev === 'light' ? 'dark' : 'light';
+                    localStorage.setItem('theme', next);
+                    return next;
+                });
             },
         }),
         []

@@ -24,6 +24,10 @@ export interface CommentsType {
 export interface PostsState {
     allPosts: PostType[];
     singlePost: PostType | null;
-    isLoading: boolean;
-    isError: boolean;
+    isFetchingPosts: boolean;
+    fetchPostsError: boolean;
+    isFetchingSinglePost: boolean;
+    fetchPostError: boolean;
+    isCreatingPost: boolean;
+    createPostError: boolean;
 }

@@ -39,37 +39,36 @@ export const getTheme = (mode: "light" | "dark") =>
                 ?
                 {
                     primary: {
-                        main: "#1877F2",
-                        contrastText: "#ffffff",
+                        main: "#1C1B1A",
+                        contrastText: "#FAF9F7",
                     },
                     secondary: {
-                        main: "#42b72a",
+                        main: "#8B5E3C",
                     },
                     background: {
-                        default: "#f0f2f5",
-                        paper: "#ffffff",
+                        default: "#F6F4F1",
+                        paper: "#FFFFFF",
                     },
                     text: {
-                        primary: "#050505",
-                        secondary: "#65676b",
+                        primary: "#1A1918",
+                        secondary: "#6B6762",
                     },
                 }
-                :
-                {
+                : {
                     primary: {
-                        main: "#1877F2",
-                        contrastText: "#ffffff",
+                        main: "#E7E5E1",
+                        contrastText: "#121110",
                     },
                     secondary: {
-                        main: "#42b72a",
+                        main: "#C89A6A",
                     },
                     background: {
-                        default: "#18191a",
-                        paper: "#242526",
+                        default: "#121110",
+                        paper: "#1B1A18",
                     },
                     text: {
-                        primary: "#e4e6eb",
-                        secondary: "#b0b3b8",
+                        primary: "#EDEBE7",
+                        secondary: "#A7A39D",
                     },
                 }),
         },

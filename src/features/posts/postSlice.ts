@@ -1,12 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { PostsState } from './postTypes';
-import { fetchPost, fetchPosts } from './postThunks';
+import { createPost, fetchPost, fetchPosts } from './postThunks';
 
 const initialState: PostsState = {
     allPosts: [],
     singlePost: null,
-    isLoading: false,
-    isError: false,
+
+    isFetchingPosts: false,
+    isFetchingSinglePost: false,
+    isCreatingPost: false,
+
+    fetchPostsError: false,
+    fetchPostError: false,
+    createPostError: false,
 };
 
 const postsSlice = createSlice({
@@ -16,28 +22,41 @@ const postsSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchPosts.pending, (state) => {
-                state.isLoading = true;
-                state.isError = false;
+                state.isFetchingPosts = true;
+                state.fetchPostsError = false;
             })
             .addCase(fetchPosts.fulfilled, (state, action) => {
-                state.isLoading = false;
+                state.isFetchingPosts = false;
                 state.allPosts = action.payload;
             })
             .addCase(fetchPosts.rejected, (state) => {
-                state.isLoading = false;
-                state.isError = true;
+                state.isFetchingPosts = false;
+                state.fetchPostsError = true;
             })
+
             .addCase(fetchPost.pending, (state) => {
-                state.isLoading = true;
-                state.isError = false;
+                state.isFetchingSinglePost = true;
+                state.fetchPostError = false;
             })
             .addCase(fetchPost.fulfilled, (state, action) => {
-                state.isLoading = false;
+                state.isFetchingSinglePost = false;
                 state.singlePost = action.payload;
             })
             .addCase(fetchPost.rejected, (state) => {
-                state.isLoading = false;
-                state.isError = true;
+                state.isFetchingSinglePost = false;
+                state.fetchPostError = true;
+            })
+
+            .addCase(createPost.pending, (state) => {
+                state.isCreatingPost = true;
+                state.createPostError = false;
+            })
+            .addCase(createPost.fulfilled, (state) => {
+                state.isCreatingPost = false;
+            })
+            .addCase(createPost.rejected, (state) => {
+                state.isCreatingPost = false;
+                state.createPostError = true;
             });
     }
 });
